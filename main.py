@@ -1,19 +1,20 @@
 import random
-def startGame():
-number = random.randint(1, 20)
-guess = 0
-attempts = 0
-print("Adivina el número entre 1 y 20")
-while guess != number:
-guess = int(input("Ingresa tu intento: "))
-attempts += 1
-if guess < number:
-print("Muy bajo")
-elif guess > number:
-print("Muy alto")
-elif guess == number:
-print("¡Correcto!")
-else:
-print("Error")
-print("Número de intentos:", attempts)
-startGame()
+
+def iniciar_juego():
+    numero_secreto = random.randint(1, 20)
+    intento_usuario = 0
+    intentos_totales = 0
+    print("Adivina el número entre 1 y 20")
+    
+    while intento_usuario != numero_secreto:
+        intento_usuario = int(input("Ingresa tu intento: "))
+        intentos_totales += 1
+        if intento_usuario < numero_secreto:
+            print("Muy bajo")
+        elif intento_usuario > numero_secreto:
+            print("Muy alto")
+        elif intento_usuario == numero_secreto:
+            print("¡Correcto!")
+        print("Número de intentos:", intentos_totales)
+
+iniciar_juego()
