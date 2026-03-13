@@ -1,10 +1,20 @@
 import random
 
-def mostrar_instrucciones():
+def mostrar_instrucciones(min_val, max_val):
+    """Muestra el mensaje de bienvenida con el rango dinámico."""
     print("--- BIENVENIDO AL JUEGO ---")
-    print("Adivina el número entre 1 y 20")
+    print(f"Instrucciones: Adivina el número entre {min_val} y {max_val}")
+
+def solicitar_numero(min_val, max_val):
+    """Solicita un número y valida que sea un entero."""
+    while True:
+        try:
+            return int(input(f"Ingresa tu intento ({min_val}-{max_val}): "))
+        except ValueError:
+            print("Error: Solo se permiten números enteros.")
 
 def procesar_intento(intento, objetivo):
+    """Compara el intento con el objetivo y retorna el estado de la partida."""
     if intento < objetivo:
         print("Muy bajo")
         return False
@@ -14,26 +24,18 @@ def procesar_intento(intento, objetivo):
     print("¡Correcto!")
     return True
 
-def iniciar_juego():
-    mostrar_instrucciones()
-    numero_secreto = random.randint(1, 20)
+def iniciar_juego(min_val=1, max_val=20):
+    """Lógica principal del juego con parámetros de rango."""
+    mostrar_instrucciones(min_val, max_val)
+    numero_secreto = random.randint(min_val, max_val)
     intentos = 0
     adivinado = False
     
     while not adivinado:
-        intento = solicitar_numero()
+        intento = solicitar_numero(min_val, max_val)
         intentos += 1
         adivinado = procesar_intento(intento, numero_secreto)
-        print(f"Intentos: {intentos}")
-        
-def solicitar_numero():
-    while True:
-        try:
-            return int(input("Ingresa tu intento: "))
-        except ValueError:
-            print("⚠️ Error: Solo se permiten números enteros.")
+        print(f"Número de intentos: {intentos}\n")
 
-# En iniciar_juego, se cambia el input por:
-# intento = solicitar_numero()
-
-iniciar_juego()
+if __name__ == "__main__":
+    iniciar_juego(1, 20)
