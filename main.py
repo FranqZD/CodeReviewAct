@@ -1,35 +1,58 @@
 import random
 
-def mostrar_instrucciones(min_val, max_val):
-    """Muestra el mensaje de bienvenida con el rango dinámico."""
-    print("--- BIENVENIDO AL JUEGO ---")
-    print(f"Instrucciones: Adivina el número entre {min_val} y {max_val}")
+def seleccionar_dificultad() -> tuple[int, int]:
+    """Permite al usuario elegir un nivel y devuelve el rango (min, max)."""
+    niveles = {
+        "1": ("Fácil", 1, 10),
+        "2": ("Medio", 1, 50),
+        "3": ("Difícil", 1, 100)
+    }
+    
+    print("Selecciona un nivel de dificultad:")
+    for tecla, (nombre, inicio, fin) in niveles.items():
+        print(f"{tecla}. {nombre} ({inicio}-{fin})")
+    
+    while True:
+        opcion = input("Opción: ")
+        if opcion in niveles:
+            _, mi, ma = niveles[opcion]
+            return mi, ma
+        print("Opción no válida. Elige 1, 2 o 3.")
 
-def solicitar_numero(min_val, max_val):
-    """Solicita un número y valida que sea un entero."""
+def solicitar_numero(min_val: int, max_val: int) -> int:
+    """Solicita un número y valida que sea un entero dentro del rango."""
     while True:
         try:
-            return int(input(f"Ingresa tu intento ({min_val}-{max_val}): "))
+            valor = int(input(f"Ingresa tu intento ({min_val}-{max_val}): "))
+            if min_val <= valor <= max_val:
+                return valor
+            print(f"Fuera de rango. Prueba entre {min_val} y {max_val}.")
         except ValueError:
-            print("Error: Solo se permiten números enteros.")
+            print("Error: Escribe un número entero.")
 
-def procesar_intento(intento, objetivo):
-    """Compara el intento con el objetivo y retorna el estado de la partida."""
+def procesar_intento(intento: int, objetivo: int) -> bool:
+    """Compara el intento con el objetivo."""
     if intento < objetivo:
-        print("Muy bajo")
+        print("📉 Muy bajo")
         return False
-    elif intento > objetivo:
-        print("Muy alto")
+    if intento > objetivo:
+        print("📈 Muy alto")
         return False
-    print("¡Correcto!")
+    print("🎉 ¡Correcto!")
     return True
 
-def iniciar_juego(min_val=1, max_val=20):
-    """Lógica principal del juego con parámetros de rango."""
-    mostrar_instrucciones(min_val, max_val)
+def iniciar_juego() -> None:
+    """Configura y arranca la partida."""
+    print("--- BIENVENIDO AL JUEGO DE ADIVINANZA ---")
+    
+    # Obtenemos el rango basado en la dificultad seleccionada
+    min_val, max_val = seleccionar_dificultad()
+    
     numero_secreto = random.randint(min_val, max_val)
     intentos = 0
     adivinado = False
+    
+    print(f"\n¡Listo! He pensado un número entre {min_val} y {max_val}.")
     
     while not adivinado:
         intento = solicitar_numero(min_val, max_val)
@@ -38,4 +61,4 @@ def iniciar_juego(min_val=1, max_val=20):
         print(f"Número de intentos: {intentos}\n")
 
 if __name__ == "__main__":
-    iniciar_juego(1, 20)
+    iniciar_juego()
