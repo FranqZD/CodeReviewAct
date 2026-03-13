@@ -21,9 +21,19 @@ def iniciar_juego():
     adivinado = False
     
     while not adivinado:
-        intento = int(input("Ingresa tu intento: "))
+        intento = solicitar_numero()
         intentos += 1
         adivinado = procesar_intento(intento, numero_secreto)
         print(f"Intentos: {intentos}")
+        
+def solicitar_numero():
+    while True:
+        try:
+            return int(input("Ingresa tu intento: "))
+        except ValueError:
+            print("⚠️ Error: Solo se permiten números enteros.")
+
+# En iniciar_juego, se cambia el input por:
+# intento = solicitar_numero()
 
 iniciar_juego()
